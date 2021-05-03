@@ -34,7 +34,10 @@ func main() {
 			if len(tokens) <= 1 {
 				continue
 			}
-			fmt.Println(tokens[0], tokens[1])
+			if tokens[1] != "Withdrawal" {
+				continue
+			}
+			fmt.Println(tokens[0], tokens[4], tokens[3])
 		}
 	} else if command == "phases" {
 	} else if command == "help" {
