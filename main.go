@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -37,7 +38,11 @@ func main() {
 			if tokens[1] != "Withdrawal" {
 				continue
 			}
-			fmt.Println(tokens[0], tokens[4], tokens[3])
+			val, _ := strconv.ParseFloat(tokens[4], 10)
+			val = val * -1
+			if val > 50 {
+				fmt.Println(tokens[0], tokens[4], tokens[3])
+			}
 		}
 	} else if command == "phases" {
 	} else if command == "help" {
