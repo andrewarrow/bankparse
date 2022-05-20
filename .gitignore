@@ -1,3 +1,4 @@
 data
+go.sum
 bankparse
 *.csv
