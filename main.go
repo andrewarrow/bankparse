@@ -27,11 +27,13 @@ func main() {
 	if command == "today" {
 		yesterday := handleItems("data/yesterday.txt")
 		today := handleItems("data/today.txt")
+		fmt.Println("<body><table>")
 		for k, v := range today {
 			if yesterday[k] == nil {
-				fmt.Println(v)
+				fmt.Printf("<tr><td>%s</td><td>%s</td><td></td></tr>\n", v.Thing, v.Amount)
 			}
 		}
+		fmt.Println("</table></body>")
 	} else if command == "move" {
 		os.Rename("data/today.txt", "data/yesterday.txt")
 	} else if command == "help" {
