@@ -2,13 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"math/rand"
 	"os"
-	"strings"
 	"time"
-
-	"golang.org/x/net/html"
 )
 
 func PrintHelp() {
@@ -29,10 +25,13 @@ func main() {
 	command := os.Args[1]
 
 	if command == "today" {
-		b, _ := ioutil.ReadFile("data/today.txt")
-		s := string(b)
-		tkn := html.NewTokenizer(strings.NewReader(s))
-		handleItems(tkn)
+		yesterday := handleItems("data/yesterday.txt")
+		today := handleItems("data/today.txt")
+		for k, v := range today {
+			if yesterday[k] == nil {
+				fmt.Println(v)
+			}
+		}
 	} else if command == "move" {
 		os.Rename("data/today.txt", "data/yesterday.txt")
 	} else if command == "help" {

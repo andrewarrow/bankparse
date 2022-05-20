@@ -1,23 +1,34 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
 	"strings"
 
 	"golang.org/x/net/html"
 )
 
-func handleItems(tkn *html.Tokenizer) {
+type Item struct {
+	Thing  string
+	Amount string
+}
+
+func handleItems(filename string) map[string]*Item {
+	b, _ := ioutil.ReadFile(filename)
+	s := string(b)
+	tkn := html.NewTokenizer(strings.NewReader(s))
 	tdCount := 0
 	dateOn := false
 	afterCount := 0
+	thing := ""
+	amount := ""
+	items := map[string]*Item{}
 	for {
 
 		tt := tkn.Next()
 		switch {
 
 		case tt == html.ErrorToken:
-			return
+			return items
 
 		case tt == html.StartTagToken:
 
@@ -41,7 +52,13 @@ func handleItems(tkn *html.Tokenizer) {
 					afterCount = 0
 					continue
 				}
-				fmt.Println(afterCount, txt)
+
+				if afterCount == 0 {
+					thing = txt
+				} else {
+					amount = txt
+					items[thing+"|"+amount] = &Item{thing, amount}
+				}
 				afterCount++
 				if afterCount == 2 {
 					dateOn = false
@@ -56,4 +73,6 @@ func handleItems(tkn *html.Tokenizer) {
 		}
 
 	}
+
+	return items
 }
