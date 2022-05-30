@@ -42,13 +42,22 @@ func main() {
 }
 
 func HandleBothDays() {
-	yesterday := handleItems("data/yesterday.txt")
-	today := handleItems("data/today.txt")
-	fmt.Println("<body><table>")
-	for k, v := range today {
-		if yesterday[k] == nil {
+	yesterdayPending, yesterdayPosted := handleItems("data/yesterday.txt")
+	todayPending, todayPosted := handleItems("data/today.txt")
+	fmt.Println("<body>")
+	fmt.Println("<table>")
+	for k, v := range todayPending {
+		if yesterdayPending[k] == nil {
 			fmt.Printf("<tr><td>%s</td><td>%s</td><td></td></tr>\n", v.Thing, v.Amount)
 		}
 	}
-	fmt.Println("</table></body>")
+	fmt.Println("</table>")
+	fmt.Println("<table>")
+	for k, v := range todayPosted {
+		if yesterdayPosted[k] == nil {
+			fmt.Printf("<tr><td>%s</td><td>%s</td><td></td></tr>\n", v.Thing, v.Amount)
+		}
+	}
+	fmt.Println("</table>")
+	fmt.Println("</body>")
 }

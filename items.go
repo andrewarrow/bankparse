@@ -12,7 +12,7 @@ type Item struct {
 	Amount string
 }
 
-func handleItems(filename string) map[string]*Item {
+func handleItems(filename string) (map[string]*Item, map[string]*Item) {
 	b, _ := ioutil.ReadFile(filename)
 	s := string(b)
 	tkn := html.NewTokenizer(strings.NewReader(s))
@@ -21,14 +21,18 @@ func handleItems(filename string) map[string]*Item {
 	afterCount := 0
 	thing := ""
 	amount := ""
-	items := map[string]*Item{}
+	postedOn := false
+
+	pendingItems := map[string]*Item{}
+	postedItems := map[string]*Item{}
+
 	for {
 
 		tt := tkn.Next()
 		switch {
 
 		case tt == html.ErrorToken:
-			return items
+			return pendingItems, postedItems
 
 		case tt == html.StartTagToken:
 
@@ -46,6 +50,9 @@ func handleItems(filename string) map[string]*Item {
 			if txt == "" {
 				continue
 			}
+			if txt == "Posted" {
+				postedOn = true
+			}
 			if dateOn {
 				if txt == "Print Details" || txt == "Posted" {
 					dateOn = false
@@ -57,8 +64,12 @@ func handleItems(filename string) map[string]*Item {
 					thing = txt
 				} else {
 					amount = txt
-					parsedThing := ChargeParse(thing)
-					items[parsedThing+"|"+amount] = &Item{parsedThing, amount}
+					if postedOn {
+						postedItems[thing+"|"+amount] = &Item{thing, amount}
+					} else {
+						parsedThing := ChargeParse(thing)
+						pendingItems[parsedThing+"|"+amount] = &Item{thing, amount}
+					}
 				}
 				afterCount++
 				if afterCount == 2 {
@@ -75,5 +86,5 @@ func handleItems(filename string) map[string]*Item {
 
 	}
 
-	return items
+	return pendingItems, postedItems
 }

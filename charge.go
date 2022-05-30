@@ -15,6 +15,9 @@ func ChargeParse(s string) string {
 		if !unicode.IsLetter(rune(t[0])) {
 			break
 		}
+		if strings.HasPrefix(t, "HTTPS") {
+			break
+		}
 		buffer = append(buffer, t)
 	}
 
