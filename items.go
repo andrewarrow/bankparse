@@ -57,7 +57,7 @@ func handleItems(filename string) map[string]*Item {
 					thing = txt
 				} else {
 					amount = txt
-					items[thing+"|"+amount] = &Item{thing, amount}
+					items[ChargeParse(thing)+"|"+amount] = &Item{thing, amount}
 				}
 				afterCount++
 				if afterCount == 2 {
