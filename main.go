@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"os/exec"
 	"time"
 )
 
@@ -35,7 +36,13 @@ func main() {
 		}
 		fmt.Println("</table></body>")
 	} else if command == "move" {
+
 		os.Rename("data/today.txt", "data/yesterday.txt")
+		cmd := exec.Command("vim", "data/today.txt")
+		cmd.Stdin = os.Stdin
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+
 	} else if command == "help" {
 		PrintHelp()
 	}
