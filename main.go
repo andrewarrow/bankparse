@@ -26,6 +26,7 @@ func main() {
 	command := os.Args[1]
 
 	if command == "today" {
+		HandleBothDays()
 	} else if command == "move" {
 
 		os.Rename("data/today.txt", "data/yesterday.txt")

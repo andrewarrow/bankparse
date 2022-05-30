@@ -12,7 +12,7 @@ func ChargeParse(s string) string {
 		if len(strings.TrimSpace(t)) == 0 {
 			continue
 		}
-		if unicode.IsNumber(rune(t[0])) {
+		if !unicode.IsLetter(rune(t[0])) {
 			break
 		}
 		buffer = append(buffer, t)
