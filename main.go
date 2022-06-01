@@ -5,7 +5,6 @@ import (
 	"math/rand"
 	"os"
 	"os/exec"
-	"strconv"
 	"time"
 )
 
@@ -48,28 +47,26 @@ func HandleBothDays() {
 	fmt.Println("<body>")
 	fmt.Println("<table>")
 	fmt.Printf("<tr><td>%s</td><td></td><td></td></tr>\n", "Pending")
-	total := 0
+	total := 0.0
 	for k, v := range todayPending {
 		if yesterdayPending[k] == nil {
 			fmt.Printf("<tr><td>%s</td><td>%s</td><td></td></tr>\n", v.Thing, v.Amount)
-			a, _ := strconv.Atoi(v.Amount)
-			total += a
+			total += v.AmountInt
 		}
 	}
-	fmt.Printf("<tr><td></td><td>%d</td><td></td></tr>\n", total)
+	fmt.Printf("<tr><td></td><td>$%.2f</td><td></td></tr>\n", total)
 	fmt.Printf("<tr><td></td><td></td><td></td></tr>\n")
 	fmt.Println("</table>")
 	fmt.Println("<table>")
 	fmt.Printf("<tr><td>%s</td><td></td><td></td></tr>\n", "Posted")
-	total = 0
+	total = 0.0
 	for k, v := range todayPosted {
 		if yesterdayPosted[k] == nil {
 			fmt.Printf("<tr><td>%s</td><td>%s</td><td></td></tr>\n", v.Thing, v.Amount)
-			a, _ := strconv.Atoi(v.Amount)
-			total += a
+			total += v.AmountInt
 		}
 	}
-	fmt.Printf("<tr><td></td><td>%d</td><td></td></tr>\n", total)
+	fmt.Printf("<tr><td></td><td>$%.2f</td><td></td></tr>\n", total)
 	fmt.Println("</table>")
 	fmt.Println("</body>")
 }

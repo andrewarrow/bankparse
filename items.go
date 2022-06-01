@@ -2,14 +2,27 @@ package main
 
 import (
 	"io/ioutil"
+	"strconv"
 	"strings"
 
 	"golang.org/x/net/html"
 )
 
 type Item struct {
-	Thing  string
-	Amount string
+	Thing     string
+	Amount    string
+	AmountInt float64
+}
+
+func NewItem(thing, amount string) *Item {
+	i := Item{}
+	i.Thing = thing
+	i.Amount = amount
+	if strings.HasPrefix(amount, "-") {
+		a, _ := strconv.ParseFloat(amount[2:], 64)
+		i.AmountInt = a
+	}
+	return &i
 }
 
 func handleItems(filename string) (map[string]*Item, map[string]*Item) {
@@ -64,11 +77,12 @@ func handleItems(filename string) (map[string]*Item, map[string]*Item) {
 					thing = txt
 				} else {
 					amount = txt
+					theItem := NewItem(thing, amount)
 					if postedOn {
-						postedItems[thing+"|"+amount] = &Item{thing, amount}
+						postedItems[thing+"|"+amount] = theItem
 					} else {
 						parsedThing := ChargeParse(thing)
-						pendingItems[parsedThing+"|"+amount] = &Item{thing, amount}
+						pendingItems[parsedThing+"|"+amount] = theItem
 					}
 				}
 				afterCount++
