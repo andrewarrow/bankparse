@@ -54,7 +54,7 @@ func HandleBothDays() {
 			total += v.AmountInt
 		}
 	}
-	fmt.Printf("<tr><td></td><td style='background-color: red;'>$%.2f</td><td></td></tr>\n", total)
+	fmt.Printf("<tr><td></td><td style='background-color: yellow;'>$%.2f</td><td></td></tr>\n", total)
 	fmt.Printf("<tr><td></td><td></td><td></td></tr>\n")
 	fmt.Println("</table>")
 	fmt.Println("<table>")
@@ -66,7 +66,7 @@ func HandleBothDays() {
 			total += v.AmountInt
 		}
 	}
-	fmt.Printf("<tr><td></td><td style='background-color: red;'>$%.2f</td><td></td></tr>\n", total)
+	fmt.Printf("<tr><td></td><td style='background-color: yellow;'>$%.2f</td><td></td></tr>\n", total)
 	fmt.Println("</table>")
 	fmt.Println("</body>")
 }
