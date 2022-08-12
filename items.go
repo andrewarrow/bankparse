@@ -19,7 +19,8 @@ func NewItem(thing, amount string) *Item {
 	i.Thing = thing
 	i.Amount = amount
 	if strings.HasPrefix(amount, "-") {
-		a, _ := strconv.ParseFloat(amount[2:], 64)
+		txt := strings.Replace(amount[2:], ",", "", -1)
+		a, _ := strconv.ParseFloat(txt, 64)
 		i.AmountInt = a
 	}
 	return &i
